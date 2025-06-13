@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket チャット</title>
+</head>
+<body>
+  <h1>WebSocket チャット</h1>
+  <input id="messageInput" type="text" placeholder="メッセージを入力">
+  <button id="sendButton">送信</button>
+  <div id="chatBox"></div>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:8080');
+    const sendButton = document.getElementById('sendButton');
+    const messageInput = document.getElementById('messageInput');
+    const chatBox = document.getElementById('chatBox');
+
+    socket.onopen = () => {
+      console.log('サーバーに接続されました');
+    };
+
+    socket.onmessage = (event) => {
+      const message = document.createElement('div');
+      message.textContent = `サーバー: ${event.data}`;
+      chatBox.appendChild(message);
+    };
+
+    socket.onclose = () => {
+      console.log('サーバーとの接続が閉じられました');
+    };
+
+    sendButton.addEventListener('click', () => {
+      const message = messageInput.value;
+      if (message) {
+        socket.send(message);
+        const userMessage = document.createElement('div');
+        userMessage.textContent = `あなた: ${message}`;
+        chatBox.appendChild(userMessage);
+        messageInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
