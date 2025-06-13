@@ -1,45 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>WebSocket チャット</title>
+    <meta charset="UTF-8">
+    <title>WebSocketクライアント</title>
 </head>
 <body>
-  <h1>WebSocket チャット</h1>
-  <input id="messageInput" type="text" placeholder="メッセージを入力">
-  <button id="sendButton">送信</button>
-  <div id="chatBox"></div>
+    <h1>WebSocketクライアント</h1>
+    <input type="text" id="message" placeholder="メッセージを入力">
+    <button id="sendBtn">送信</button>
+    <div id="responses"></div>
 
-  <script>
-    const socket = new WebSocket('ws://localhost:8080');
-    const sendButton = document.getElementById('sendButton');
-    const messageInput = document.getElementById('messageInput');
-    const chatBox = document.getElementById('chatBox');
+    <script>
+        const socket = new WebSocket('ws://localhost:8080');
 
-    socket.onopen = () => {
-      console.log('サーバーに接続されました');
-    };
+        socket.onmessage = function(event) {
+            const responsesDiv = document.getElementById('responses');
+            responsesDiv.innerHTML += '<p>' + event.data + '</p>';
+        };
 
-    socket.onmessage = (event) => {
-      const message = document.createElement('div');
-      message.textContent = `サーバー: ${event.data}`;
-      chatBox.appendChild(message);
-    };
-
-    socket.onclose = () => {
-      console.log('サーバーとの接続が閉じられました');
-    };
-
-    sendButton.addEventListener('click', () => {
-      const message = messageInput.value;
-      if (message) {
-        socket.send(message);
-        const userMessage = document.createElement('div');
-        userMessage.textContent = `あなた: ${message}`;
-        chatBox.appendChild(userMessage);
-        messageInput.value = '';
-      }
-    });
-  </script>
+        document.getElementById('sendBtn').onclick = function() {
+            const messageInput = document.getElementById('message');
+            socket.send(messageInput.value);
+            messageInput.value = '';
+        };
+    </script>
 </body>
 </html>
