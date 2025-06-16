@@ -19,7 +19,16 @@ const quizData = [
     ],
     correct: 2,
   },
-  // 他の問題もここに追加
+  {
+    question: "数学で，「極限」を表す記号は次のうちどれ？",
+    choices: [
+      { text: "min" },
+      { text: "lim" },
+      { text: "sup" },
+      { text: "mod" },
+    ],
+    correct: 1,
+  },
 ];
 
 let currentQuiz = quizData; // 全問題をそのまま使用
