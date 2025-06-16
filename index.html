@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
-    <title>WebSocketクライアント</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学クイズ</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>WebSocketクライアント</h1>
-    <input type="text" id="message" placeholder="メッセージを入力">
-    <button id="sendBtn">送信</button>
-    <div id="responses"></div>
 
-    <script>
-        const socket = new WebSocket('ws://localhost:8080');
+    <div class="container" id="container">
+        <!-- 全問題数表示 -->
+        <div class="quiz-info">
+            全 <span id="total-questions"></span> 問
+        </div>
 
-        socket.onmessage = function(event) {
-            const responsesDiv = document.getElementById('responses');
-            responsesDiv.innerHTML += '<p>' + event.data + '</p>';
-        };
+        <h1>数学クイズ</h1>
 
-        document.getElementById('sendBtn').onclick = function() {
-            const messageInput = document.getElementById('message');
-            socket.send(messageInput.value);
-            messageInput.value = '';
-        };
-    </script>
+        <div class="quiz-container" id="quiz-container">
+            <div class="question-number" id="question-number"></div>
+            <div class="question" id="question"></div>
+            <div class="grid-container" id="choices-container"></div>
+        </div>
+
+        <div class="result-section" id="answer-section">
+            <h2>回答結果</h2>
+            <p id="answer-result"></p>
+            <div id="next-question" onclick="nextQuestion()">次の問題へ</div>
+        </div>
+
+        <div id="final-result" class="final-section">
+            <h2>最終結果</h2>
+            <p id="score"></p>
+            <div id="restart-quiz" onclick="restartQuiz()">もう一度遊ぶ</div>
+        </div>
+    </div>
+
+    <!-- 先に問題ファイルを読み込む -->
+    <script src="quizData.js"></script>
+    <!-- 次にメインのスクリプトを読み込む -->
+    <script src="script.js"></script>
 </body>
+
 </html>
