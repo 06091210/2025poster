@@ -115,7 +115,7 @@ function showResult() {
   const percentage = (score / currentQuiz.length) * 100;
   document.getElementById("score").textContent = `正解数: ${score}/${
     currentQuiz.length
-  } (${percentage.toFixed(2)}%)`;
+  } (${percentage.toFixed(3)}%)`;
 }
 
 // もう一度遊ぶ
