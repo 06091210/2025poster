@@ -12,8 +12,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // WebSocket通信
 wss.on('connection', (ws) => {
+  console.log('New client connected');
   ws.on('message', (msg) => {
-    // 全クライアントにメッセージ送信
+    console.log('Received:', msg);
+    // 全クライアントに送信
     wss.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(msg);
